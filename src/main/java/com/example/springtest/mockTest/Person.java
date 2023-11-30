@@ -1,4 +1,4 @@
-package com.example.springtest.MockTest;
+package com.example.springtest.mockTest;
 
 public class Person {
 
