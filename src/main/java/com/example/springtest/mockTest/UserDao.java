@@ -9,4 +9,18 @@ public class UserDao {
 
         return new String[]{"rabong", "orange"};
     }
+
+    public Page findUsers() {
+        return new Page() {
+            @Override
+            public int getTotalCount() {
+                return 0;
+            }
+
+            @Override
+            public String[] getContent() {
+                return new String[0];
+            }
+        };
+    }
 }

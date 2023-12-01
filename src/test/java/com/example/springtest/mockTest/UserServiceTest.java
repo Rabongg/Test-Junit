@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +26,21 @@ public class UserServiceTest {
         when(userDao.findAllUser()).thenReturn(users);  // userDao stubbing
 
         String[] result = subject.getAllUser();
+
+        Assertions.assertEquals(2, result.length);
+        Assertions.assertEquals("RABONG", result[0]);
+        Assertions.assertEquals("APPLE", result[1]);
+    }
+
+    @Test
+    void getUsersTest() {
+
+        Page users = mock(Page.class); // interface를 mocking
+        when(users.getContent()).thenReturn(new String[]{"rabong", "apple"}); // mock한 interface stubbing
+        when(userDao.findUsers()).thenReturn(users);
+
+
+        String[] result = subject.getUsers();
 
         Assertions.assertEquals(2, result.length);
         Assertions.assertEquals("RABONG", result[0]);

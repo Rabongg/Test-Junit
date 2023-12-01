@@ -16,4 +16,15 @@ public class UserService {
         }
         return users;
     }
+
+    public String[] getUsers() {
+        Page users = userDao.findUsers();
+
+        String[] userList = users.getContent();
+
+        for (int i = 0; i < userList.length; i++) {
+            userList[i] = userList[i].toUpperCase();
+        }
+        return userList;
+    }
 }
