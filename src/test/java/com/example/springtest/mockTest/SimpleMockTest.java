@@ -19,10 +19,4 @@ public class SimpleMockTest {
         System.out.println(person.getName());
     }
 
-    @Test
-    public void interfaceMockTest() {
-
-
-
-    }
 }
