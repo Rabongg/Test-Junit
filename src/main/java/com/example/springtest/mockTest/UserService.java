@@ -11,9 +11,8 @@ public class UserService {
 
     public String[] getAllUser() {
         String[] users = userDao.findAllUser();
-        for (int i = 0; i < users.length; i++) {
-            users[i] = users[i].toUpperCase();
-        }
+        setUserUpper(users);
+
         return users;
     }
 
@@ -21,10 +20,14 @@ public class UserService {
         Page users = userDao.findUsers();
 
         String[] userList = users.getContent();
+        setUserUpper(userList);
 
-        for (int i = 0; i < userList.length; i++) {
-            userList[i] = userList[i].toUpperCase();
-        }
         return userList;
+    }
+
+    public void setUserUpper(String[] users) {
+        for (int i = 0; i < users.length; i++) {
+            users[i] = users[i].toUpperCase();
+        }
     }
 }

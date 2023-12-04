@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -16,6 +16,7 @@ public class UserServiceTest {
     @Mock
     private UserDao userDao;
 
+    @Spy
     @InjectMocks
     private UserService subject;
 
@@ -31,19 +32,29 @@ public class UserServiceTest {
         Assertions.assertEquals("RABONG", result[0]);
         Assertions.assertEquals("APPLE", result[1]);
     }
-
     @Test
     void getUsersTest() {
 
-        Page users = mock(Page.class); // interface를 mocking
-        when(users.getContent()).thenReturn(new String[]{"rabong", "apple"}); // mock한 interface stubbing
-        when(userDao.findUsers()).thenReturn(users);
-
+        Page mockUsers = mock(Page.class); // interface를 mocking
+        String[] users = {"rabong", "apple"};
+        when(userDao.findUsers()).thenReturn(mockUsers);
+        when(mockUsers.getContent()).thenReturn(users); // mock한 interface stubbing
+        doNothing().when(subject).setUserUpper(users);  // 내부 메서드 stubbing
 
         String[] result = subject.getUsers();
 
         Assertions.assertEquals(2, result.length);
-        Assertions.assertEquals("RABONG", result[0]);
-        Assertions.assertEquals("APPLE", result[1]);
+        Assertions.assertEquals("rabong", result[0]);
+        Assertions.assertEquals("apple", result[1]);
+    }
+
+    @Test
+    void setUserUpperTest() {
+        String[] users = {"rabong", "apple"};
+
+        subject.setUserUpper(users);
+
+        Assertions.assertEquals("RABONG", users[0]);
+        Assertions.assertEquals("APPLE", users[1]);
     }
 }
